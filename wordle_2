@@ -1,0 +1,100 @@
+import numpy as np
+wordbank = """worldhouseplacegrouppartymoneypointnightwaterthingpowercourtchildsouthwomannorthdeathrangetabletradestudyotherpricevaluerightvoicestagelightmarchboardmonthmusicfieldfrontheartforcemodelspacehotelstyledoubtsoundearthwholemouthradiosharesmithstonequeenstockhorseplantscaleimagechaircausecrimepoundhenrymatchclaimvideotrialphonetrainsightgrantshapewhilesmiletrackroutechinatouchyouthwastecrownbirthfaithentrymajorownerlunchjudgeguidecoverjonesgreenbrainphasecoastdrinkdrivemetalindexadultsportnoiseagentmotorsheetbrowncrowdshockfruitsteelplatelewiswhitefocuschiefbeachsugarpaneldreambreadchainchestfrankblockstorebreakroundrugby"""
+nb = ', '.join(wordbank[i:i + 5] for i in range(0, len(wordbank), 5))
+newbank = nb.split(', ')
+
+print("""Welcome to Wordle!!!
+
+Your goal is to guess the mystery word of the day!
+
+Here are the rules:
+
+1. No word has the same letter twice. Example 'booth' is not a word, as it has 2 o's.
+2. Green means the letter is correct in the right place, yellow means correct in the wrong place, and grey is just plain wrong!
+3. You are allowed to guess words that don't exist; however, you only have 5 guesses instead of the normal 6.
+4. Only guess 5 letter words.
+5. Have fun!!!
+
+""")
+
+play = True
+
+while play:
+    word_of_day = newbank[np.random.randint(0,125)]
+    message = "Congrats! You guessed the word of the day: " + word_of_day
+    first_guess = input("What is your first guess? ")
+
+    def wordle_game(letter_num, guess):
+        if guess[letter_num] == word_of_day[letter_num]:
+            print(guess[letter_num] + "- green")
+        elif guess[letter_num] in word_of_day and guess[letter_num] != word_of_day[letter_num]:
+            print(guess[letter_num] + "- yellow")
+        elif guess[letter_num] not in word_of_day and guess[letter_num] != word_of_day[letter_num]:
+            print(guess[letter_num] + "- grey")
+
+    def change_list(word_to_remove):
+        letters_to_guess = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+        for x in word_to_remove:
+            if x in letters_to_guess:
+                letters_to_guess.remove(x)
+        print("Letters Left: " + str(letters_to_guess))
+        
+    wordle_game(0, first_guess)
+    wordle_game(1, first_guess)
+    wordle_game(2, first_guess)
+    wordle_game(3, first_guess)
+    wordle_game(4, first_guess)
+
+    if first_guess == word_of_day:
+            print(message)
+    else:
+        change_list(first_guess)
+        second_guess = input("What is your second guess? ")
+        wordle_game(0, second_guess)
+        wordle_game(1, second_guess)
+        wordle_game(2, second_guess)
+        wordle_game(3, second_guess)
+        wordle_game(4, second_guess)
+    
+        if second_guess == word_of_day:
+                print(message)
+        else:
+            change_list(first_guess + second_guess)
+            third_guess = input("What is your third guess? ")
+            wordle_game(0, third_guess)
+            wordle_game(1, third_guess)
+            wordle_game(2, third_guess)
+            wordle_game(3, third_guess)
+            wordle_game(4, third_guess)
+
+            if third_guess == word_of_day:
+                print(message)
+            else:
+                change_list(first_guess + second_guess + third_guess)
+                fourth_guess = input("What is your fourth guess? ")
+                wordle_game(0, fourth_guess)
+                wordle_game(1, fourth_guess)
+                wordle_game(2, fourth_guess)
+                wordle_game(3, fourth_guess)
+                wordle_game(4, fourth_guess)
+    
+                if fourth_guess == word_of_day:
+                    print(message)
+        
+                else:
+                    change_list(first_guess + second_guess + third_guess + fourth_guess)
+                    last_guess = input("What is your last guess? ")
+                    wordle_game(0, last_guess)
+                    wordle_game(1, last_guess)
+                    wordle_game(2, last_guess)
+                    wordle_game(3, last_guess)
+                    wordle_game(4, last_guess)
+    
+                    if last_guess == word_of_day:
+                        print(message)
+                    else:
+                        print("Sorry, better luck next time! The word was: " + word_of_day)
+                        
+    again=str(input("Do you want to play again, type yes or no "))
+    if again == "no":
+        play = False
