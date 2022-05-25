@@ -1,8 +1,15 @@
+# this is a really weak version of the popular game "wordle" that I have worked on to help culptivate my python skills
+# very inefficient code, but I am proud of it for what it is
+
+
+#this part adds numpy, takes a string of connected 5 letter words and seperates them with commas
+
 import numpy as np
 wordbank = """worldhouseplacegrouppartymoneypointnightwaterthingpowercourtchildsouthwomannorthdeathrangetabletradestudyotherpricevaluerightvoicestagelightmarchboardmonthmusicfieldfrontheartforcemodelspacehotelstyledoubtsoundearthwholemouthradiosharesmithstonequeenstockhorseplantscaleimagechaircausecrimepoundhenrymatchclaimvideotrialphonetrainsightgrantshapewhilesmiletrackroutechinatouchyouthwastecrownbirthfaithentrymajorownerlunchjudgeguidecoverjonesgreenbrainphasecoastdrinkdrivemetalindexadultsportnoiseagentmotorsheetbrowncrowdshockfruitsteelplatelewiswhitefocuschiefbeachsugarpaneldreambreadchainchestfrankblockstorebreakroundrugby"""
 nb = ', '.join(wordbank[i:i + 5] for i in range(0, len(wordbank), 5))
 newbank = nb.split(', ')
 
+#beginning text for the game
 print("""Welcome to Wordle!!!
 
 Your goal is to guess the mystery word of the day!
@@ -16,14 +23,16 @@ Here are the rules:
 5. Have fun!!!
 
 """)
-
+#establishes a boolean value to keep constant as long as the player wants to keep playing
 play = True
 
+#picks a random value from the wordbank, establishes the winning message, input for first guess
 while play:
     word_of_day = newbank[np.random.randint(0,125)]
     message = "Congrats! You guessed the word of the day: " + word_of_day
     first_guess = input("What is your first guess? ")
 
+#defines a function for the game that can be continously called for each guess
     def wordle_game(letter_num, guess):
         if guess[letter_num] == word_of_day[letter_num]:
             print(guess[letter_num] + "- green")
@@ -31,14 +40,16 @@ while play:
             print(guess[letter_num] + "- yellow")
         elif guess[letter_num] not in word_of_day and guess[letter_num] != word_of_day[letter_num]:
             print(guess[letter_num] + "- grey")
-
+            
+#word bank that changes as letters are guessed
     def change_list(word_to_remove):
         letters_to_guess = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
         for x in word_to_remove:
             if x in letters_to_guess:
                 letters_to_guess.remove(x)
         print("Letters Left: " + str(letters_to_guess))
-        
+ 
+ # runs the function for each letter in the first guess
     wordle_game(0, first_guess)
     wordle_game(1, first_guess)
     wordle_game(2, first_guess)
@@ -47,6 +58,7 @@ while play:
 
     if first_guess == word_of_day:
             print(message)
+# second guess, exc.
     else:
         change_list(first_guess)
         second_guess = input("What is your second guess? ")
@@ -94,7 +106,8 @@ while play:
                         print(message)
                     else:
                         print("Sorry, better luck next time! The word was: " + word_of_day)
-                        
+    
+    #option to play again
     again=str(input("Do you want to play again, type yes or no "))
     if again == "no":
         play = False
